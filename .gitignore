@@ -1,0 +1,17 @@
+.azure/
+.env
+.env.*
+!.env.example
+node_modules/
+coverage/
+*.log
+*.pem
+*.key
+*.pfx
+*.p12
+*.pcm
+*.wav
+.DS_Store
+Thumbs.db
+infra/*.json
+!infra/main.parameters.json

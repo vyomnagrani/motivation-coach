@@ -1,0 +1,19 @@
+{
+  "name": "foundry-native-voice-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "test": "node --test",
+    "check": "node --check server.js && node --check native.js && node --check content.js && node --check public/content-view.js && node --check public/app.js && node --check public/pcm-worklet.js",
+    "test:native": "node --env-file-if-exists=.env scripts/native-smoke.js",
+    "test:remote": "node scripts/remote-smoke.js"
+  },
+  "dependencies": {
+    "@azure/ai-projects": "2.8.0",
+    "@azure/identity": "4.13.3",
+    "ws": "8.22.0"
+  }
+}

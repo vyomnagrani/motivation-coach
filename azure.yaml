@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+name: motivation-coach
+metadata:
+  template: motivation-coach@1.0.0
+infra:
+  provider: bicep
+  path: infra
+services:
+  web:
+    project: src/web
+    host: containerapp
+    language: js
+    docker:
+      path: ./Dockerfile
+      context: .
+      remoteBuild: true
+hooks:
+  preprovision:
+    shell: pwsh
+    run: ./scripts/lifecycle.ps1 -Stage Preprovision
+    interactive: true
+  postprovision:
+    shell: pwsh
+    run: ./scripts/lifecycle.ps1 -Stage Postprovision
+    interactive: true
+  predeploy:
+    shell: pwsh
+    run: ./scripts/lifecycle.ps1 -Stage Predeploy
+    interactive: true
+  postdeploy:
+    shell: pwsh
+    run: ./scripts/lifecycle.ps1 -Stage Postdeploy
+    interactive: true

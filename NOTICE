@@ -1,0 +1,11 @@
+Motivation Coach application and deployment template
+Copyright (c) 2026 Vyom Nagrani
+
+This application uses Microsoft Azure SDK packages and other open-source
+dependencies. Each dependency retains its upstream copyright and license.
+The Microsoft Foundry samples and Azure SDK documentation referenced in the
+README informed the implementation; those upstream projects are MIT licensed,
+Copyright (c) Microsoft Corporation.
+
+No recordings, speech fixtures, credentials, or exported conversation data
+are included in this repository.

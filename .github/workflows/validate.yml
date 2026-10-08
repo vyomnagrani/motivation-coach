@@ -1,0 +1,36 @@
+name: Validate template
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: src/web/package-lock.json
+      - name: Restore dependencies
+        run: npm ci --prefix src/web --ignore-scripts
+      - name: App tests and syntax
+        working-directory: src/web
+        run: npm test && npm run check
+      - name: Lifecycle tests
+        run: node --test test/*.test.mjs
+      - name: Compile infrastructure
+        run: az bicep build --file infra/main.bicep --stdout > /dev/null
+      - name: Parse PowerShell hooks
+        shell: pwsh
+        run: |
+          Get-ChildItem scripts/*.ps1 | ForEach-Object {
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$null, [ref]$errors) | Out-Null
+            if ($errors) { throw ($errors | Out-String) }
+          }
+      - name: Exercise lifecycle hooks without Azure
+        shell: pwsh
+        run: ./test/lifecycle.test.ps1
